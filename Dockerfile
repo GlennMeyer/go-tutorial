@@ -6,8 +6,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN go build main.go
+RUN go build -o app
 
 EXPOSE 8080
 
-CMD "./main"
+CMD "./app"
