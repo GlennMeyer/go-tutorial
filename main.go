@@ -10,6 +10,7 @@ func main() {
 	router = gin.Default()
 	router.LoadHTMLGlob("templates/*")
 	initializeRoutes()
+	initializeDatabase()
 
 	router.Run()
 }

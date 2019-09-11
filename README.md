@@ -11,9 +11,9 @@
 
 ## Usage
 
-`make stopr` to stop the app container.
+`make stopr` to stop the api container.
 
-`make killr` to kill the app container.
+`make killr` to kill the api container.
 
 `make debug` to run a Go container. (you will need to install inside of the container [Gin-Gonic](https://github.com/gin-gonic/gin#installation))
 
