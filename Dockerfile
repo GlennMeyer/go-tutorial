@@ -1,11 +1,12 @@
 FROM golang:1.13.0
 
-RUN go get -u github.com/gin-gonic/gin github.com/go-pg/pg
+WORKDIR /go/src/app
 
 COPY . .
 
-RUN go build -o myapp .
+RUN go get -d -v ./...
+RUN go install -v ./...
 
 EXPOSE 8080
 
-CMD "./myapp"
+CMD ["app"]
