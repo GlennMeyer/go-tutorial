@@ -3,7 +3,7 @@ build:
 compose:
 	docker-compose up --build --force-recreate
 debug:
-	docker run --rm -v ${CURDIR}:/usr/src/myapp -w /usr/src/myapp --name debug -it golang:1.13.0 /bin/bash
+	docker run --rm -v ${CURDIR}:/usr/src/app -w /usr/src/app --name debug -it golang:1.13.0 /bin/bash
 killapi:
 	docker kill go_tutorial_api_1
 killdb:

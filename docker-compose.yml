@@ -1,11 +1,5 @@
 version: "3"
 services:
-  db:
-    image: "postgres:11.5"
-    ports:
-      - "5432"
-    volumes:
-      - ./db/pgdata:/pgdata
   api:
     build:
       context: .
@@ -13,6 +7,24 @@ services:
     image: glennmeyer/go_tutorial:latest
     ports: 
       - "80:8080"
+    depends_on:
+      - db
+      - migrations
+    links:
+      - db
+  db:
+    image: "postgres:11.5"
+    ports:
+      - "5432"
+    volumes:
+      - ./db/pgdata:/pgdata
+  migrations:
+    build:
+      context: ./migrations
+      dockerfile: Dockerfile-migrations
+    command: > 
+      bash -c "go run . init
+               go run ."
     depends_on:
       - db
     links:
