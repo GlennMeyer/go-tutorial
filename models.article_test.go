@@ -7,8 +7,8 @@ func TestGetAllArticles(t *testing.T) {
 
   if len(alist) != len(articleList) {
     t.Fail()
-	}
-	
+  }
+  
   for i, v := range alist {
     if v.Content != articleList[i].Content ||
       v.Id != articleList[i].Id ||
