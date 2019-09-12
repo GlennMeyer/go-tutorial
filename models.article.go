@@ -35,4 +35,4 @@ func getArticleByID(id int) (*article, error) {
     return nil, errors.New("Article not found")
   }
   return article, nil
-}
+} 
