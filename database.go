@@ -1,25 +1,39 @@
 package main
 
 import (
-	"fmt"
-	"github.com/go-pg/pg"
-	"time"
+  "os"
+  "time"
+  
+  "github.com/go-pg/pg"
+  "github.com/joho/godotenv"
 )
 
-func initializeDatabase() {
-	db := pg.Connect(&pg.Options{
-    User:     "postgres",
-    Password: "",
-		Database: "postgres",
-		Addr: 		"db:5432",
-	})
-	var n int
-	_, err := db.QueryOne(pg.Scan(&n), "SELECT 1;")
-	if err != nil {
-		fmt.Println("Cannot initialize database: ", err)
-		time.Sleep(1 * time.Second)
-		initializeDatabase()
-	} else {
-		fmt.Println("Database initialized.", n)
-	}
+func pgOptions() *pg.Options {
+  err := godotenv.Load()
+  if err != nil {
+    panic(err)
+  }
+  return &pg.Options{
+    User:             os.Getenv("POSTGRES_USER"),
+    Password:         os.Getenv("POSTGRES_PASSWORD"),
+    Database:         os.Getenv("POSTGRES_DB"),
+    Addr:     "db:" + os.Getenv("POSTGRES_PORT"),
+
+    MaxRetries:      1,
+    MinRetryBackoff: -1,
+
+    DialTimeout:  30 * time.Second,
+    ReadTimeout:  10 * time.Second,
+    WriteTimeout: 10 * time.Second,
+
+    PoolSize:           10,
+    MaxConnAge:         10 * time.Second,
+    PoolTimeout:        30 * time.Second,
+    IdleTimeout:        10 * time.Second,
+    IdleCheckFrequency: 100 * time.Millisecond,
+  }
+}
+
+func pgConnect() *pg.DB {
+  return pg.Connect(pgOptions())
 }
